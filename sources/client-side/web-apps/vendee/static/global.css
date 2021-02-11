@@ -22,7 +22,7 @@
   --body-background-color: hsl(0, 0%, 90%);
   --a-visited-color: hsl(211, 100%, 59%);
 
-  --font-family: "inter";
+  --font-family: 'inter';
   --font-weight: 200;
   --system-font-family: system-ui;
 
