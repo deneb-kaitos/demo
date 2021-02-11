@@ -1,3 +1,5 @@
+<!-- FIXME: remove this when ready -->
+
 <script context='module'>
   import {
     isTokenValid,
