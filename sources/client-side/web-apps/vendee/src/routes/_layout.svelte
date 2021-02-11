@@ -1,22 +1,23 @@
-<script>
-	import Nav from '../components/Nav.svelte';
-
-	export let segment;
+<script context='module'>
+  export async function preload(page, session) {
+    return {
+      token: session.token ?? null,
+    }
+  };
 </script>
 
-<style>
-	main {
-		position: relative;
-		max-width: 56em;
-		background-color: white;
-		padding: 2em;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-</style>
+<script>
+  import {
+    isTokenValid,
+  } from '../helpers/isTokenValid.mjs';
+  import Nav from '../components/Nav.svelte';
 
-<Nav {segment}/>
+  export let segment;
+  export let token;
+</script>
 
-<main>
-	<slot></slot>
-</main>
+{#if isTokenValid(token) === true}
+  <Nav {segment} />
+{/if}
+
+<slot></slot>

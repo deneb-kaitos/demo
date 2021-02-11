@@ -1,7 +1,8 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "vendee",
+  "description": "Vendee WebApp",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
@@ -9,13 +10,14 @@
     "start": "node __sapper__/build"
   },
   "dependencies": {
+    "@surma/rollup-plugin-off-main-thread": "^2.0.0",
     "compression": "^1.7.1",
+    "nanoid": "^3.1.20",
     "polka": "next",
-    "sirv": "^1.0.0"
+    "sirv": "^1.0.0",
+    "xstate": "^4.16.2"
   },
   "devDependencies": {
-    "sapper": "^0.28.0",
-    "svelte": "^3.17.3",
     "@babel/core": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
@@ -28,6 +30,8 @@
     "@rollup/plugin-url": "^5.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-svelte": "^7.0.0",
-    "rollup-plugin-terser": "^7.0.0"
+    "rollup-plugin-terser": "^7.0.0",
+    "sapper": "^0.28.0",
+    "svelte": "^3.17.3"
   }
 }
