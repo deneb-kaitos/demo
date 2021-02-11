@@ -1,0 +1,42 @@
+{
+  "name": "@deneb-kaitos/demo",
+  "version": "0.0.0",
+  "description": "kaufmann demo",
+  "engines": {
+    "node": "=15.8.0",
+    "pnpm": "=5.17.1"
+  },
+  "engineStrict": true,
+  "volta": {
+    "node": "15.8.0"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "verdaccio": "verdaccio --config=./verdaccio/config/verdaccio.yaml --listen=7348",
+    "publish-libs": "cross-env NPM_CONFIG_REGISTRY=http://localhost:7348 pnpm --filter=./sources/back-end/libs -r publish",
+    "publish-all": "run-p -r verdaccio public-libs",
+    "clean-install": "pnpm --recursive exec -- rm -rf node_modules && pnpm --recursive install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deneb-kaitos/demo.git"
+  },
+  "keywords": [
+    "kaufmann",
+    "demo"
+  ],
+  "author": "Dmitry N. Medvedev <dmitry.medvedev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deneb-kaitos/demo/issues"
+  },
+  "homepage": "https://github.com/deneb-kaitos/demo#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.13",
+    "@babel/eslint-parser": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.19.0",
+    "npm-run-all": "^4.1.5"
+  }
+}
