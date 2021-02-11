@@ -1,4 +1,6 @@
-<!-- FIXME: remove this when ready -->
+<!--
+  FIXME: remove this when ready
+-->
 
 <script context='module'>
   import {
