@@ -1,21 +1,20 @@
 /*
   see: https://rsms.me/inter/
-
     * {
+      TODO: don't forget these settings, see the site for examples
       font-variation-settings: "slnt" 0deg;
     }
 
     .italic {
       font-variation-settings: "slnt" 10deg;
     }
-
 */
 
 @font-face {
-  font-family: 'inter';
-  font-weight: 100 900;
   font-display: swap;
+  font-family: 'inter';
   font-style: oblique 0deg 10deg;
+  font-weight: 100; /* 100 .. 900; */
   src: url("/fonts/Inter.var.woff2?v=3.15") format("woff2");
 }
 
@@ -24,6 +23,7 @@
   --a-visited-color: hsl(211, 100%, 59%);
 
   --font-family: "inter";
+  --font-weight: 200;
   --system-font-family: system-ui;
 
   --pointer-events: auto;
@@ -61,6 +61,7 @@ main {
 
 body {
   font-family: var(--font-family);
+  font-weight: var(--font-weight);
   pointer-events: var(--pointer-events);
   user-select: var(--user-select);
 }
