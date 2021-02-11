@@ -13,7 +13,7 @@
 @font-face {
   font-display: swap;
   font-family: 'inter';
-  font-style: oblique 0deg 10deg;
+  font-style: oblique; /* oblique 0deg 10deg; */
   font-weight: 100; /* 100 .. 900; */
   src: url("/fonts/Inter.var.woff2?v=3.15") format("woff2");
 }
