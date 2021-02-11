@@ -99,9 +99,13 @@
   };
 
   const handleKeyDown = (event) => {
+    if (event.metaKey === true) {
+      return;
+    }
+
     const { key, keyCode } = event;
 
-    console.log('handleKey', key, keyCode);
+    console.log('handleKey', key, keyCode, event.metaKey);
 
     if ([MoveDirection.LEFT, MoveDirection.RIGHT].includes(keyCode)) {
       move(keyCode);
@@ -128,7 +132,9 @@
 
   .pin-cell {
     display: flex;
-    flex: 1 0 auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc(100% / 6);
     border-bottom: 1px solid hsl(0deg 0% 57%);
     background-color: white;
     justify-content: center;
