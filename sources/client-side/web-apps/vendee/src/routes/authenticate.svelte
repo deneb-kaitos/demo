@@ -25,36 +25,50 @@
   } from 'nanoid';
 
   let pushNotificationAllowed = false;
+  let pinLength = 6;
+  let pin = null;
 
   const handleSubmit = () => {
     console.log('handleSubmit');
+  };
+
+  const isPinValid = (pin = null) => {
+    if (pin === null) {
+      return false;
+    }
+
+    if (pin.length === pinLength) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const handlePin = ({ detail: { payload } }) => {
+    pin = payload;
   };
 </script>
 
 <style>
   article {
     --height: 40%;
-    --width: 40%;
     --center: calc(50% - var(--height) / 2);
     --background-color: hsl(0, 0%, 100%);
 
     display: grid;
-    grid-gap: min(0.25vh, 0.25vw);
+    grid-gap: max(0.25vh, 0.25vw);
     grid-template-columns: 1fr;
-    grid-template-rows: 3fr 2fr;
+    grid-template-rows: 3fr 3fr;
     grid-template-areas:
       'logo-container'
-      'submit-container'
+      'form-container'
     ;
 
     justify-self: center;
     align-self: center;
-    /* width: var(--width); */
-    height: var(--height);
+    min-height: var(--height);
     position: absolute;
     top: calc(var(--center) / 1.5);
-
-    padding: max(1vh, 1vw);
   }
 
   .logo-container {
@@ -67,18 +81,18 @@
     filter: var(--drop-shadow);
   }
 
-  .submit-container {
-    grid-area: submit-container;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    align-items: stretch;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0 auto;
+  .form-container {
+    grid-area: form-container;
+    display: grid;
+    grid-gap: max(0.25vh, 0.25vw);
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+      'pin-container'
+      'push-consent-container'
+      'submit-container'
+    ;
+    width: 12vw;
   }
 
   .form-row {
@@ -88,32 +102,37 @@
     align-items: stretch;
   }
 
-  .form-row:not(:first-of-type) {
-    margin-top: 0.5vh;
+  .pin-container {
+    grid-area: pin-container;
   }
 
-  .push-notification-consent {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+  .push-consent-container {
+    grid-area: push-consent-container;
+    display: flex;
+    justify-content: space-between;
   }
 
-  .push-notification-consent > div {
+  .push-consent-container > div {
     display: flex;
     flex: 1 0 auto;
     justify-content: center;
     align-items: center;
+  }
+
+  .push-consent-container > div > label {
+    display: flex;
+    flex: 1 0 auto;
+    height: 100%;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .submit-container {
+    grid-area: submit-container;
   }
 
   #allow-push-notifications {
     display: none;
-  }
-
-  .push-notification-consent > div > label {
-    display: flex;
-    flex: 1 0 auto;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
   }
 </style>
 
@@ -121,12 +140,12 @@
   <div class='logo-container'>
     <Logo />
   </div>
-  <form class='submit-container' on:submit|preventDefault|stopPropagation={handleSubmit}>
+  <form on:submit|preventDefault|stopPropagation={handleSubmit} class='form-container'>
     <input type="text" autocomplete="username" class='hidden' value={nanoid(15)}>
-    <div class='form-row'>
-      <PinInput length={6} />
+    <div class='form-row pin-container'>
+      <PinInput length={pinLength} on:pin={handlePin} />
     </div>
-    <div class='form-row push-notification-consent'>
+    <div class='form-row push-consent-container'>
       <div>
         <input type='checkbox' id='allow-push-notifications' name='allow-push-notifications' bind:checked={pushNotificationAllowed} />
         {#if pushNotificationAllowed === true}
@@ -139,11 +158,11 @@
         <label for='allow-push-notifications'>I hereby consent to receive required notifications</label>
       </div>
     </div>
-    <div class='form-row'>
+    <div class='form-row submit-container'>
       <Button
         type='submit'
         width='25%'
-        disabled={pushNotificationAllowed === false}
+        disabled={pushNotificationAllowed === false || isPinValid(pin) === false}
       >
         log in
       </Button>
