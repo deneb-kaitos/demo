@@ -26,7 +26,7 @@
   --font-weight: 200;
   --system-font-family: system-ui;
 
-  --pointer-events: auto;
+  --pointer-events: none;
   --user-select: none;
 
   --drop-shadow-x: 0;
@@ -79,6 +79,7 @@ label {
 
 button {
   cursor: pointer;
+  pointer-events: all;
 }
 
 button:disabled {
