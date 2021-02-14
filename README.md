@@ -7,4 +7,4 @@ Kaufmann Demo
 [![Maintainability](https://api.codeclimate.com/v1/badges/cfa88af76f4d901170f8/maintainability)](https://codeclimate.com/github/deneb-kaitos/kaufmann-demo/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/cfa88af76f4d901170f8/test_coverage)](https://codeclimate.com/github/deneb-kaitos/kaufmann-demo/test_coverage)
 
-* [architecture](sources/ARCHITECTURE.md)
+* [architecture](docs/ARCHITECTURE.md)

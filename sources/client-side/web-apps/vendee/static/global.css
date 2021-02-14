@@ -13,7 +13,7 @@
 @font-face {
   font-family: 'inter';
   font-display: swap;
-  font-style: oblique; /* oblique 0deg 10deg; */
+  font-style: 0deg; /* oblique 0deg 10deg; */
   font-weight: 100; /* 100 .. 900; */
   src: url("/fonts/Inter.var.woff2?v=3.15") format("woff2");
 }
@@ -26,7 +26,7 @@
   --font-weight: 200;
   --system-font-family: system-ui;
 
-  --pointer-events: auto;
+  --pointer-events: none;
   --user-select: none;
 
   --drop-shadow-x: 0;
@@ -34,13 +34,18 @@
   --drop-shadow-blur-radius: 15px;
   --drop-shadow-color: hsl(0deg 0% 70%);
   --drop-shadow: drop-shadow(var(--drop-shadow-x) var(--drop-shadow-y) var(--drop-shadow-blur-radius) var(--drop-shadow-color));
+
+  --transition-duration: 125ms;
+  --transition-timing-function: cubic-bezier(.02,.84,.97,.38);
+  --transition-delay: 0ms;
 }
 
 * {
-  position: relative;
-  margin: 0;
-  padding: 0;
+  position:relative;
+  margin:0;
+  padding:0;
   box-sizing:content-box;
+  contain:content;
 }
 
 html,
@@ -73,16 +78,33 @@ label {
 
 a,
 input,
-label {
-  pointer-events: all !important;
+label,
+button {
+  pointer-events: all;
 }
 
 button {
   cursor: pointer;
+  border-color: var(--drop-shadow-color);
 }
 
 button:disabled {
   cursor: not-allowed;
+  border: none;
+  background-color: transparent;
+}
+
+button:not(:disabled):hover {
+  filter: drop-shadow(0px 0px 4px var(--drop-shadow-color));
+}
+
+button:active {
+  filter: none;
+  box-shadow: inset 3px 3px 1rem var(--drop-shadow-color);
+}
+
+button:focus {
+  outline: none;
 }
 
 a,

@@ -1,64 +1,41 @@
 <script>
   import {
-    onMount,
-    onDestroy,
+    createEventDispatcher,
   } from 'svelte';
-  import {
-    nanoid,
-  } from 'nanoid';
 
   export let length = 8;
 
-  let body;
-  let result = '';
-  let currentCell = 0;
-  const idPrefix = nanoid(3);
+  const dispatch = createEventDispatcher();
+  const EMPTY_CELL = '';
   const MoveDirection = Object.freeze({
     LEFT: 37,
     RIGHT: 39,
   });
+  let currentCell = 0;
 
-  $: values = (new Array(length)).fill('');
+  $: pins = (new Array(length)).fill(null).map((value, id) => ({
+    id,
+    value: EMPTY_CELL,
+    activeCell: false,
+  }));
 
-  $: console.log({ currentCell });
-
-  $: if (currentCell >=0 && currentCell < values.length) {
-    const cellID = genID(currentCell);
-
-    if ('window' in globalThis) {
-      const element = document.querySelector(`#${cellID}`);
-
-      if (element !== null) {
-        element.classList.toggle('activeCell');
-      }
-    }
+  $: {
+    dispatch('pin', {
+      payload: pins.map((pin) => pin.value).join(EMPTY_CELL),
+    });
   }
-
-  const genID = (id) => `c_${idPrefix}_${id}`;
-
-  const removeActiveClass = (cellId) => {
-    const element = document.querySelector(`#${genID(cellId)}`) ?? null;
-
-    if (element !== null) {
-      element.classList.remove('activeCell');
-    }
-  };
 
   const move = (direction) => {
     switch (direction) {
       case MoveDirection.LEFT: {
         if (currentCell > 0) {
-          removeActiveClass(currentCell);
-
           currentCell = currentCell - 1;
         }
 
         break;
       }
       case MoveDirection.RIGHT: {
-        if (currentCell < values.length - 1) {
-          removeActiveClass(currentCell);
-
+        if (currentCell < pins.length - 1) {
           currentCell = currentCell + 1;
         }
 
@@ -77,25 +54,19 @@
   };
 
   const printKeyToCell = (key) => {
-    console.log('printKeyToCell', key);
+    (pins[currentCell]).value = key;
 
-    const element = document.querySelector(`#${genID(currentCell)}`) ?? null;
+    pins = pins;
 
-    if (element !== null) {
-      element.innerHTML = key;
-
-      move(MoveDirection.RIGHT);
-    }
+    move(MoveDirection.RIGHT);
   };
 
   const removeKeyFromCurrentCell = () => {
-    const element = document.querySelector(`#${genID(currentCell)}`) ?? null;
+    (pins[currentCell]).value = EMPTY_CELL;
 
-    if (element !== null) {
-      element.innerHTML = '';
+    pins = pins;
 
-      move(MoveDirection.LEFT);
-    }
+    move(MoveDirection.LEFT);
   };
 
   const handleKeyDown = (event) => {
@@ -105,8 +76,6 @@
 
     const { key, keyCode } = event;
 
-    console.log('handleKey', key, keyCode, event.metaKey);
-
     if ([MoveDirection.LEFT, MoveDirection.RIGHT].includes(keyCode)) {
       move(keyCode);
     } else if (isPrintableKey(key)) {
@@ -115,18 +84,13 @@
       removeKeyFromCurrentCell();
     }
   };
-
-  onMount(() => {
-    console.log({ length }, { values });
-  });
-
-  onDestroy(() => {});
 </script>
 
 <style>
   .pins {
     display: flex;
     flex: 1 0 auto;
+    flex-wrap: nowrap;
     min-height: 3rem;
   }
 
@@ -135,12 +99,22 @@
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: calc(100% / 6);
-    border-bottom: 1px solid hsl(0deg 0% 57%);
-    background-color: white;
+    border-bottom: 3px solid transparent;
+    background-color: hsl(0deg 0% 100% / 50%);
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
-    line-height: 2rem;
+    font-size: 3.5rem;
+    line-height: 0;
+
+    transition: background-color var(--transition-duration) var(--transition-timing-function) var(--transition-delay);
+    will-change: background-color;
+  }
+
+  .pin-cell:not(:empty) {
+    /* background-color: hsl(0deg 0% 100% / 25%); */
+    background-color: transparent;
+    transition: background-color var(--transition-duration) var(--transition-timing-function) var(--transition-delay);
+    will-change: background-color;
   }
 
   .pin-cell:not(:first-of-type) {
@@ -148,18 +122,17 @@
   }
 
   .activeCell {
-    border-bottom-color: orangered !important;
+    border-bottom-color: hsl(16deg 100% 50%) !important;
   }
 </style>
 
 <svelte:window on:keydown|stopPropagation|passive={handleKeyDown} />
 
 <div class='pins'>
-  {#each values as value, index}
+  {#each pins as pin (pin.id)}
     <div
-      id={genID(index)}
       class='pin-cell roundedCorners'
-      class:activeCell={index === 0}
-    >{value}</div>
+      class:activeCell={pin.id === currentCell}
+    >{pin.value}</div>
   {/each}
 </div>

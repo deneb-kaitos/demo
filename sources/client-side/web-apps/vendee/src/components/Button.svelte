@@ -1,32 +1,24 @@
 <script>
-  import {
-    onMount,
-  } from 'svelte';
-
   export let type;
   export let disabled = true;
-  export let width;
-
-  let component;
-
-  onMount(() => {
-    component.style.setProperty('--min-width', width);
-  });
 </script>
 
 <style>
   button {
-    --min-width: 'auto';
-
-    min-width: var(--width);
+    align-self: center;
+    height: 3rem;
+    padding: 0.5vh 1vw;
+    font-size: 1.25rem;
+    border-width: 1px;
+    font-variant: small-caps;
+    text-transform: lowercase;
   }
 </style>
 
 <button
   {type}
   {disabled}
-  width='auto'
-  bind:this={component}
+  class='roundedCorners'
 >
   <slot></slot>
 </button>
