@@ -105,10 +105,16 @@
     align-items: center;
     font-size: 3.5rem;
     line-height: 0;
+
+    transition: background-color var(--transition-duration) var(--transition-timing-function) var(--transition-delay);
+    will-change: background-color;
   }
 
   .pin-cell:not(:empty) {
-    background-color: hsl(0deg 0% 100% / 25%);
+    /* background-color: hsl(0deg 0% 100% / 25%); */
+    background-color: transparent;
+    transition: background-color var(--transition-duration) var(--transition-timing-function) var(--transition-delay);
+    will-change: background-color;
   }
 
   .pin-cell:not(:first-of-type) {

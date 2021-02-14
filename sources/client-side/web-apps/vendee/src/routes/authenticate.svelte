@@ -125,6 +125,8 @@
     height: 100%;
     justify-content: flex-end;
     align-items: center;
+    font-weight: 100;
+    font-size: 1.125rem;
   }
 
   .submit-container {

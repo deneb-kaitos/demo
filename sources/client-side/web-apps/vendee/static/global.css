@@ -34,13 +34,18 @@
   --drop-shadow-blur-radius: 15px;
   --drop-shadow-color: hsl(0deg 0% 70%);
   --drop-shadow: drop-shadow(var(--drop-shadow-x) var(--drop-shadow-y) var(--drop-shadow-blur-radius) var(--drop-shadow-color));
+
+  --transition-duration: 125ms;
+  --transition-timing-function: cubic-bezier(.02,.84,.97,.38);
+  --transition-delay: 0ms;
 }
 
 * {
-  position: relative;
-  margin: 0;
-  padding: 0;
+  position:relative;
+  margin:0;
+  padding:0;
   box-sizing:content-box;
+  contain:content;
 }
 
 html,
@@ -73,17 +78,33 @@ label {
 
 a,
 input,
-label {
-  pointer-events: all !important;
+label,
+button {
+  pointer-events: all;
 }
 
 button {
   cursor: pointer;
-  pointer-events: all;
+  border-color: var(--drop-shadow-color);
 }
 
 button:disabled {
   cursor: not-allowed;
+  border: none;
+  background-color: transparent;
+}
+
+button:not(:disabled):hover {
+  filter: drop-shadow(0px 0px 4px var(--drop-shadow-color));
+}
+
+button:active {
+  filter: none;
+  box-shadow: inset 3px 3px 1rem var(--drop-shadow-color);
+}
+
+button:focus {
+  outline: none;
 }
 
 a,
